@@ -2,11 +2,11 @@
 
 **An LLM agent that reads a bug report, explores a real codebase, writes a fix, and verifies it by running the actual test suite — no human writes the fix.**
 
-🎯 **100% success rate** across 10 independently-verified bugs (easy → hard tiers, 3 separate runs)
-🔧 **Real GitHub integration** — reads live issues, opens real pull requests
-🛠️ **Built from scratch** — no agent framework, own tool-use loop, own eval harness
-💰 **Zero-cost stack** — runs entirely on free-tier infrastructure (Groq)
-🐛 **8+ documented production-grade bugs found and fixed** along the way (rate limits, malformed model output, file corruption, encoding issues) — see the full debugging log below
+ **100% success rate** across 10 independently-verified bugs (easy → hard tiers, 3 separate runs)
+ **Real GitHub integration** — reads live issues, opens real pull requests
+ **Built from scratch** — no agent framework, own tool-use loop, own eval harness
+ **Zero-cost stack** — runs entirely on free-tier infrastructure (Groq)
+ **8+ documented production-grade bugs found and fixed** along the way (rate limits, malformed model output, file corruption, encoding issues) — see the full debugging log below
 
 An agent that reads a bug report, explores a codebase, writes a fix, and
 verifies its own work by running the test suite — looping until tests pass.
