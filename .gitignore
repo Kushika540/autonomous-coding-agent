@@ -1,0 +1,26 @@
+# Virtual environment
+venv/
+.venv/
+env/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# Logs and eval results (generated at runtime, not source)
+logs/*.jsonl
+eval/results.jsonl
+eval/results_summary.md
+eval/log_*.jsonl
+
+# Real cloned repos from the GitHub integration (not part of this project's own source)
+github_integration/clones/
+
+# Never commit secrets
+.env
+*.env
+
+# OS junk
+.DS_Store
+Thumbs.db
