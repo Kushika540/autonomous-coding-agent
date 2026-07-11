@@ -1,19 +1,4 @@
-"""
-Tool implementations for the coding agent.
 
-Every tool is scoped to operate only within SANDBOX_ROOT. This is a
-deliberate safety boundary: never let an LLM read or write arbitrary
-paths on the host machine. In production you'd run this whole process
-inside a Docker container too (see docker/Dockerfile) — path-scoping
-here is defense-in-depth, not a replacement for that.
-
-SANDBOX_ROOT defaults to the local demo repo (sandbox_repo/), but can
-be pointed at any directory via the AGENT_WORKDIR environment variable
--- this is how github_agent.py repoints the same tools at a real cloned
-repository without any code duplication. Set AGENT_WORKDIR *before*
-importing this module (or agent_loop, which imports it), since the
-path is resolved once at import time.
-"""
 
 import os
 import re
