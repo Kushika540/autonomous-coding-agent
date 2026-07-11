@@ -14,7 +14,7 @@ environment variables:
     export AGENT_BASE_URL=https://generativelanguage.googleapis.com/v1beta/openai
     export AGENT_MODEL=gemini-2.0-flash
 
-  Local Ollama (completely free, no signup, no internet required):
+  Local Ollama:
     ollama pull llama3.1
     ollama serve
     export AGENT_BASE_URL=http://localhost:11434/v1
