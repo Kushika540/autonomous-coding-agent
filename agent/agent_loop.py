@@ -5,11 +5,11 @@ Uses the OpenAI-compatible chat completions API, which lets this run
 against multiple FREE providers with zero code changes -- just swap
 environment variables:
 
-  Groq (default, recommended -- fast, free, no credit card):
+  Groq:
     export GROQ_API_KEY=gsk_...
     (base URL and model already default to Groq below)
 
-  Google AI Studio (free, no credit card, huge context window):
+  Google AI Studio:
     export LLM_API_KEY=AIza...
     export AGENT_BASE_URL=https://generativelanguage.googleapis.com/v1beta/openai
     export AGENT_MODEL=gemini-2.0-flash
@@ -36,9 +36,7 @@ from openai import OpenAI
 from tools import TOOL_DEFINITIONS, TOOL_FUNCTIONS
 
 BASE_URL = os.environ.get("AGENT_BASE_URL", "https://api.groq.com/openai/v1")
-# openai/gpt-oss-20b is built specifically for reliable agentic tool use and
-# is far less prone to malformed function calls than llama-3.3-70b-versatile,
-# which has known tool-calling flakiness on Groq (see README for details).
+
 MODEL = os.environ.get("AGENT_MODEL", "openai/gpt-oss-20b")
 API_KEY = os.environ.get("GROQ_API_KEY") or os.environ.get("LLM_API_KEY")
 
@@ -112,11 +110,7 @@ def run_agent(task: str, log_path: str = "../logs/run.jsonl", verbose: bool = Tr
     for iteration in range(1, MAX_ITERATIONS + 1):
         _p(f"\n--- Iteration {iteration}/{MAX_ITERATIONS} ---")
 
-        # Retry loop: Groq's Llama-family models occasionally emit a
-        # malformed tool call (a known, documented quirk, not specific to
-        # this project) which the API rejects with a 400 tool_use_failed
-        # error. Groq's own docs recommend retrying with lower temperature
-        # rather than treating it as a fatal error.
+
         response = None
         last_error = None
         for attempt in range(1, MAX_TOOL_CALL_RETRIES + 1):
@@ -133,10 +127,6 @@ def run_agent(task: str, log_path: str = "../logs/run.jsonl", verbose: bool = Tr
                 last_error = e
                 err_str = str(e)
 
-                # Rate limit: Groq's free tier caps tokens/minute. The error
-                # message tells us exactly how long to wait, so parse and
-                # sleep rather than failing the whole run over a transient
-                # quota reset.
                 if "rate_limit_exceeded" in err_str or "429" in err_str:
                     wait_match = re.search(r"try again in ([\d.]+)s", err_str)
                     wait_seconds = float(wait_match.group(1)) + 1.0 if wait_match else 15.0
@@ -152,7 +142,7 @@ def run_agent(task: str, log_path: str = "../logs/run.jsonl", verbose: bool = Tr
                     _p(f"[warning] malformed tool call from model (attempt {attempt}/{MAX_TOOL_CALL_RETRIES}), retrying...")
                     log({"event": "tool_call_malformed_retry", "iteration": iteration, "attempt": attempt, "error": err_str[:500]}, log_path)
                     continue
-                raise  # not the known quirk, don't swallow other errors
+                raise 
 
         if response is None:
             _p(f"[error] gave up after {MAX_TOOL_CALL_RETRIES} malformed tool call attempts: {last_error}")
@@ -175,8 +165,7 @@ def run_agent(task: str, log_path: str = "../logs/run.jsonl", verbose: bool = Tr
                 _p("\n=== AGENT REPORTS SUCCESS ===")
                 return {"declared_done": True, "iterations_used": iteration, "final_message": msg.content, "error": None}
 
-        # Re-append the assistant turn in plain dict form (required for the
-        # next request to include prior tool calls correctly)
+   
         assistant_entry = {"role": "assistant", "content": msg.content or ""}
         if msg.tool_calls:
             assistant_entry["tool_calls"] = [
