@@ -139,13 +139,9 @@ Get a free Groq API key:
 export GROQ_API_KEY=gsk_your-key-here     # Windows PowerShell: $env:GROQ_API_KEY = "gsk_..."
 ```
 
-### Alternative free providers (no code changes needed, just env vars)
 
-If Groq's free-tier limits ever get tight, swap providers by setting
-different environment variables — the code itself doesn't change, since
-it talks to any OpenAI-compatible endpoint:
 
-**Google AI Studio** (free, no card, huge 1M-token context):
+**Google AI Studio**:
 ```bash
 export LLM_API_KEY=your-google-ai-studio-key
 export AGENT_BASE_URL=https://generativelanguage.googleapis.com/v1beta/openai
@@ -153,10 +149,6 @@ export AGENT_MODEL=gemini-2.0-flash
 ```
 Get a key at [aistudio.google.com](https://aistudio.google.com) — no card required.
 
-**Local Ollama** (completely free forever, runs on your own machine, no
-internet needed after setup — good if you want zero dependency on any
-provider's rate limits):
-```bash
 # Install Ollama from ollama.com, then:
 ollama pull llama3.1
 ollama serve
@@ -248,22 +240,22 @@ harder version of the same off-by-one pattern —
   about code that's structurally incomplete, not just numerically wrong
 
 
-## Evaluation Results (measured, not projected)
+## Evaluation Results 
 
 **Full 10-bug set, run against the live Groq API:**
 
 | Bug ID | Difficulty | Passed | Claimed Done | Iterations | Time (s) |
 |---|---|---|---|---|---|
-| palindrome_self_compare | easy | ✅ | ✅ | 6 | 64.8 |
-| vowel_count_off_by_missing_y | easy | ✅ | ✅ | 10 | 44.0 |
-| average_wrong_divisor | medium | ✅ | ✅ | 7 | 34.1 |
-| dedupe_loses_order | medium | ✅ | ✅ | 5 | 20.8 |
-| multi_file_helper_bug | hard | ✅ | ✅ | 8 | 50.3 |
-| chunk_wrong_boundary | medium | ✅ | ✅ | 6 | 20.3 |
-| mutable_default_argument | hard | ✅ | ✅ | 6 | 11.3 |
-| inverted_priority_sort | hard | ✅ | ✅ | 7 | 28.4 |
-| duplicated_config_constant | hard | ✅ | ✅ | 8 | 43.2 |
-| missing_right_subtree_recursion | hard | ✅ | ✅ | 7 | 43.0 |
+| palindrome_self_compare | easy |  6 | 64.8 |
+| vowel_count_off_by_missing_y | easy | 10 | 44.0 |
+| average_wrong_divisor | medium |  7 | 34.1 |
+| dedupe_loses_order | medium |  5 | 20.8 |
+| multi_file_helper_bug | hard |  8 | 50.3 |
+| chunk_wrong_boundary | medium |  6 | 20.3 |
+| mutable_default_argument | hard  | 6 | 11.3 |
+| inverted_priority_sort | hard  | 7 | 28.4 |
+| duplicated_config_constant | hard | 8 | 43.2 |
+| missing_right_subtree_recursion | hard |  7 | 43.0 |
 
 **Success rate: 10/10 (100%). Self-assessment accuracy: 10/10 (100%).**
 Avg iterations: 7.0. Avg time/bug: 36.0s.
